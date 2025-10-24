@@ -1,3 +1,4 @@
+// ai-response.dto.ts
 import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 import { Expose } from 'class-transformer';
 
