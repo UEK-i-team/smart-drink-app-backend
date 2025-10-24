@@ -10,7 +10,11 @@ export class AppService {
   }
 
   // TODO: Dodane tylko dla testów
-  async generateDrinks(prompt?: string): Promise<IGeminiResponse> {
+  async generateDrinks(prompt: string): Promise<IGeminiResponse> {
     return geminiConnector.generateDrink(prompt);
+  }
+
+  async generateImages(prompt: IGeminiResponse): Promise<void> {
+    return geminiConnector.generateImage(prompt);
   }
 }
