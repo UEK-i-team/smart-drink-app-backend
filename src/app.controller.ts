@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
+import { IGeminiResponse } from './connectors/GeminiConnector';
 
 @Controller()
 export class AppController {
@@ -8,5 +9,11 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  // TODO: Dodane tylko dla testów
+  @Post('/getDrink')
+  async postGetDrink(@Body('prompt') prompt: string): Promise<IGeminiResponse> {
+    return await this.appService.generateDrinks(prompt);
   }
 }
