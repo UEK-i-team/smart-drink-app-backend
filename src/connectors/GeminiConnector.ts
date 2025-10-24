@@ -3,13 +3,13 @@ import 'dotenv/config';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 
-enum FlavorProfiles {
+export enum FlavorProfiles {
   SWEET = 'Sweet',
   SEMI_SWEET = 'Semi_sweet',
   DRY = 'Dry',
 }
 
-enum Strengths {
+export enum Strengths {
   LOW = 'Low',
   MEDIUM = 'Medium',
   HIGH = 'High',
