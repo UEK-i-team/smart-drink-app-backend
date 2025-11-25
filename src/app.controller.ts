@@ -11,9 +11,13 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  // TODO: Dodane tylko dla testów
   @Post('/getDrink')
   async postGetDrink(@Body('prompt') prompt: string): Promise<IGeminiResponse> {
     return await this.appService.generateDrinks(prompt);
+  }
+
+  @Post('/getImage')
+  async postGenerateImage(prompt: IGeminiResponse): Promise<void> {
+    return await this.appService.generateImages(prompt);
   }
 }
