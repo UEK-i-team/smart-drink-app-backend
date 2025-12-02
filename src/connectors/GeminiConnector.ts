@@ -126,10 +126,38 @@ export class GeminiConnector {
 
     this._aiClient = new GoogleGenAI({ apiKey: this.geminiApiKey });
   }
+    //narazie nie działa
+  public async generateImage(geminiRequest: IGeminiResponse): Promise<Buffer | null> {
+    let request = geminiRequest;
+    try {
+      const response = await this._aiClient.models.generateImages({
+        model: 'imagen-3.0-generate-002',
+        prompt: request.drinks[0].image_description,
+        config: {
+          numberOfImages: 1,
+        }
+      });
+      if (response.generatedImages) {
+        for (const generatedImage of response.generatedImages) {
+          if (generatedImage.image && generatedImage.image.imageBytes) {
+            let imgBytes = generatedImage.image.imageBytes;
+            const buffer = Buffer.from(imgBytes, "base64");
+            return buffer;
+          } else {
+            console.warn(`Generated image at index ${request.drinks[0].name} is missing image data.`);
+          }
+        }
+      } else {
+        console.warn('No generated images returned from API.');
+      }
+    } catch (error) {
+      console.warn('No generated images returned from API.', error);
+      throw new Error(`Image generation failed: ${error instanceof Error ? error.message : String(error)}`);
+    }
+    return null;
+  }
 
-  public async generateDrink(
-    prompt: string = 'Podaj mi fajne drinki na lato!',
-  ): Promise<IGeminiResponse> {
+  public async generateDrink(prompt: string): Promise<IGeminiResponse> {
     try {
       const result = await this._aiClient.models.generateContent({
         model: this.model,
