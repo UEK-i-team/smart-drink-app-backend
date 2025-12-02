@@ -14,7 +14,7 @@ export class AppService {
     return geminiConnector.generateDrink(prompt);
   }
 
-  async generateImages(prompt: IGeminiResponse): Promise<void> {
+  async generateImages(prompt: IGeminiResponse): Promise<Buffer | null> {
     return geminiConnector.generateImage(prompt);
   }
 }

@@ -1,6 +1,5 @@
 import { GoogleGenAI, Type } from '@google/genai';
 import 'dotenv/config';
-import * as fs from "node:fs";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 
@@ -127,20 +126,23 @@ export class GeminiConnector {
 
     this._aiClient = new GoogleGenAI({ apiKey: this.geminiApiKey });
   }
-  //narazie nie działa
-  public async generateImage(geminiRequest: IGeminiResponse): Promise<void> {
+    //narazie nie działa
+  public async generateImage(geminiRequest: IGeminiResponse): Promise<Buffer | null> {
     let request = geminiRequest;
     try {
       const response = await this._aiClient.models.generateImages({
-        model: 'gemini-2.0-flash-preview-image-generation',
-        prompt: request.drinks[0].image_description
+        model: 'imagen-3.0-generate-002',
+        prompt: request.drinks[0].image_description,
+        config: {
+          numberOfImages: 1,
+        }
       });
       if (response.generatedImages) {
         for (const generatedImage of response.generatedImages) {
           if (generatedImage.image && generatedImage.image.imageBytes) {
             let imgBytes = generatedImage.image.imageBytes;
             const buffer = Buffer.from(imgBytes, "base64");
-            fs.writeFileSync(`imagen-${request.drinks[0].name}.png`, buffer);
+            return buffer;
           } else {
             console.warn(`Generated image at index ${request.drinks[0].name} is missing image data.`);
           }
@@ -150,7 +152,9 @@ export class GeminiConnector {
       }
     } catch (error) {
       console.warn('No generated images returned from API.', error);
+      throw new Error(`Image generation failed: ${error instanceof Error ? error.message : String(error)}`);
     }
+    return null;
   }
 
   public async generateDrink(prompt: string): Promise<IGeminiResponse> {
