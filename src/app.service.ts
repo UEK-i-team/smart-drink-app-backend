@@ -5,6 +5,8 @@ const geminiConnector = new GeminiConnector();
 
 @Injectable()
 export class AppService {
+  history: any[] = [];
+
   getHello(): IGeminiResponse {
     return {
       annotations: 'Here are some refreshing drink suggestions!',
@@ -43,5 +45,15 @@ export class AppService {
   // TODO: Dodane tylko dla testów
   async generateDrinks(prompt?: string): Promise<IGeminiResponse> {
     return geminiConnector.generateDrink(prompt);
+  }
+
+  // History Logic
+  async getHistory(): Promise<any> {
+    return this.history;
+  }
+
+  async addHistory(drink: any): Promise<any> {
+    this.history.push(drink);
+    return this.history;
   }
 }

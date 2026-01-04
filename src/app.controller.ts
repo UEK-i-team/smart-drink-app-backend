@@ -16,4 +16,15 @@ export class AppController {
   async postGetDrink(@Body('prompt') prompt: string): Promise<IGeminiResponse> {
     return await this.appService.generateDrinks(prompt);
   }
+
+  // History Logic
+  @Get('/getHistory')
+  async getHistory(): Promise<any> {
+    return this.appService.getHistory();
+  }
+
+  @Post('/addHistory')
+  async addHistory(@Body('drink') drink: any): Promise<any> {
+    return this.appService.addHistory(drink);
+  }
 }
