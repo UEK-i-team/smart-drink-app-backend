@@ -16,8 +16,4 @@ export const getCorsConfig = (isDevMode: boolean): CorsOptions => ({
     callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> 237b2421544901e7aea3d70e78490709498dbd87
