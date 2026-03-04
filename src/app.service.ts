@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { GeminiConnector, IGeminiResponse, FlavorProfiles, Strengths } from './connectors/GeminiConnector';
+import { GeminiConnector, IGeminiResponse } from './connectors/GeminiConnector';
+import { MOCK_DRINKS_RESPONSE } from './data';
+import { DrinksResponseDto } from './dto';
 
 const geminiConnector = new GeminiConnector();
 
 @Injectable()
 export class AppService {
-  history: any[] = [];
-
   getHello(): IGeminiResponse {
     return {
       annotations: 'Here are some refreshing drink suggestions!',
